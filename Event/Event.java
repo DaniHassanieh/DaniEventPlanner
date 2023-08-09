@@ -55,7 +55,7 @@ public class Event {
 
     @Override
     public String toString() {
-        return "Event [eventName=" + eventName + ", eventDescription=" + eventDescription + ", startDate=" + startDate.getTime()
-                + ", endDate=" + endDate.getTime() + "]";
+        return "Event [eventName=" + eventName + ", eventDescription=" + eventDescription + ", startDate="
+                + startDate.getTime() + ", endDate=" + endDate.getTime() + "]";
     }
 }

@@ -1,16 +1,13 @@
 import java.util.Calendar;
-
 import Event.Event;
 
-public class AgendaPlanner {
+public class EventPlanner {
     public static void main(String[] args) {
 
-        Calendar bob = makeDate(2024, 6, 29, 0, 0, 0);
-        Calendar andrew = makeDate(2024, 6, 29, 23, 59, 59);
+        Calendar startDate = makeDate(2024, 6, 29, 0, 0, 0);
+        Calendar endDate = makeDate(2024, 6, 29, 23, 59, 59);
 
-        System.out.println(bob.getTime());
-
-        Event birthday = new Event("Dani's Birthday!!", "Read Title :3", bob, andrew);
+        Event birthday = new Event("Dani's Birthday!!", "Read Title :3", startDate, endDate);
 
         System.out.println(birthday);
 
