@@ -2,14 +2,14 @@ package Event;
 
 import java.util.Calendar;
 
-public class Event {
+public class PlannedEvent {
     
     private String eventName;
     private String eventDescription;
     private Calendar startDate;
     private Calendar endDate;
 
-    public Event(String eventName, String eventDescription, Calendar startDate, Calendar endDate) {
+    public PlannedEvent(String eventName, String eventDescription, Calendar startDate, Calendar endDate) {
         this.eventName = eventName;
         this.eventDescription = eventDescription;
         this.startDate = startDate;

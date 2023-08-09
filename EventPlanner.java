@@ -1,5 +1,5 @@
 import java.util.Calendar;
-import Event.Event;
+import Event.PlannedEvent;
 
 public class EventPlanner {
     public static void main(String[] args) {
@@ -7,7 +7,7 @@ public class EventPlanner {
         Calendar startDate = makeDate(2024, 6, 29, 0, 0, 0);
         Calendar endDate = makeDate(2024, 6, 29, 23, 59, 59);
 
-        Event birthday = new Event("Dani's Birthday!!", "Read Title :3", startDate, endDate);
+        PlannedEvent birthday = new PlannedEvent("Dani's Birthday!!", "Read Title :3", startDate, endDate);
 
         System.out.println(birthday);
 
