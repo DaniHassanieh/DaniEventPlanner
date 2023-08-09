@@ -2,7 +2,7 @@ package Event;
 
 import java.util.Calendar;
 
-public abstract class Event {
+public class Event {
     
     private String eventName;
     private String eventDescription;
@@ -53,7 +53,9 @@ public abstract class Event {
     }
 
 
-    
-    
-
+    @Override
+    public String toString() {
+        return "Event [eventName=" + eventName + ", eventDescription=" + eventDescription + ", startDate=" + startDate.getTime()
+                + ", endDate=" + endDate.getTime() + "]";
+    }
 }
