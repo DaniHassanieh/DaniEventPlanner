@@ -7,39 +7,54 @@ import Event.PlannedEvent;
 
 public class EventPlannerGUI {
 
-    public static final int WINDOW_WIDTH = 600;
-    public static final int WINDOW_HEIGHT = 800;
+    public static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+    public static final int FRAME_WIDTH = SCREEN_SIZE.width / 2;
+    public static final int FRAME_HEIGHT = SCREEN_SIZE.height / 2;
+    public static final int PANEL_BORDER_WIDTH = FRAME_WIDTH / 80;
+    public static final int PANEL_BORDER_HEIGHT = FRAME_HEIGHT / 45;
 
     private ArrayList<PlannedEvent> events;
-    private JLabel label;
+//    private JLabel label;
     private JFrame frame;
     private JPanel panel;
+
+    private JLabel eventNameLabel;
+    private JTextField eventNameText;
+    private JLabel eventDescriptionLabel;
+    private JTextField eventDescriptionText;
+    private JLabel eventStartDateLabel;
+    private JTextField eventStartDateText;
+    private JLabel eventEndDateLabel;
+    private JTextField eventEndDateText;
 
     public EventPlannerGUI() {
 
         frame = new JFrame();
-        frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-        label = new JLabel("Number of clicks: 0");
+        panel = new JPanel();
+        panel.setBorder(BorderFactory.createEmptyBorder(PANEL_BORDER_HEIGHT, PANEL_BORDER_WIDTH, PANEL_BORDER_HEIGHT,
+                PANEL_BORDER_WIDTH));
+        panel.setLayout(null);
 
-        JButton button = new JButton(new AbstractAction() {
+        JButton buttonCreateNewEvent = new JButton(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
             }
         });
 
-        panel = new JPanel();
-        panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
-//        panel.setLayout(new GridLayout(0,1));
 
-        panel.add(button);
-        panel.add(label);
+        buttonCreateNewEvent.setBounds(FRAME_WIDTH / 6 * 5 + FRAME_WIDTH / 16, FRAME_HEIGHT / 6 * 5, FRAME_WIDTH / 16, FRAME_HEIGHT / 16);
+
+        panel.add(buttonCreateNewEvent);
 
         frame.add(panel, BorderLayout.CENTER);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
         frame.setTitle("Dani Event Planner");
-        frame.pack();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+        frame.setResizable(false);
 
         frame.setVisible(true);
 

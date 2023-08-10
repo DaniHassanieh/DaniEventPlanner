@@ -6,14 +6,14 @@ public class PlannedEvent {
     
     private String eventName;
     private String eventDescription;
-    private Calendar startDate;
-    private Calendar endDate;
+    private Calendar eventStartDate;
+    private Calendar eventEndDate;
 
-    public PlannedEvent(String eventName, String eventDescription, Calendar startDate, Calendar endDate) {
+    public PlannedEvent(String eventName, String eventDescription, Calendar eventStartDate, Calendar eventEndDate) {
         this.eventName = eventName;
         this.eventDescription = eventDescription;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.eventStartDate = eventStartDate;
+        this.eventEndDate = eventEndDate;
     }
 
 
@@ -35,27 +35,27 @@ public class PlannedEvent {
     }
 
 
-    public Calendar getStartDate() {
-        return startDate;
+    public Calendar getEventStartDate() {
+        return eventStartDate;
     }
 
-    public void setStartDate(Calendar startDate) {
-        this.startDate = startDate;
+    public void setEventStartDate(Calendar eventStartDate) {
+        this.eventStartDate = eventStartDate;
     }
 
 
-    public Calendar getEndDate() {
-        return endDate;
+    public Calendar getEventEndDate() {
+        return eventEndDate;
     }
 
-    public void setEndDate(Calendar endDate) {
-        this.endDate = endDate;
+    public void setEventEndDate(Calendar eventEndDate) {
+        this.eventEndDate = eventEndDate;
     }
 
 
     @Override
     public String toString() {
         return "Event [eventName=" + eventName + ", eventDescription=" + eventDescription + ", startDate="
-                + startDate.getTime() + ", endDate=" + endDate.getTime() + "]";
+                + eventStartDate.getTime() + ", endDate=" + eventEndDate.getTime() + "]";
     }
 }
