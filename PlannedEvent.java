@@ -1,5 +1,3 @@
-package Event;
-
 import java.util.Calendar;
 
 public class PlannedEvent {
@@ -50,6 +48,13 @@ public class PlannedEvent {
 
     public void setEventEndDate(Calendar eventEndDate) {
         this.eventEndDate = eventEndDate;
+    }
+
+
+    public static Calendar makeDate(int year, int month, int day, int hour, int minute, int second) {
+        Calendar date = Calendar.getInstance();
+        date.set(year, month, day, hour, minute, second);
+        return date;
     }
 
 

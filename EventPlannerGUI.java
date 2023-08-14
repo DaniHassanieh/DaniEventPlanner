@@ -1,9 +1,9 @@
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-
-import Event.PlannedEvent;
+import java.util.Calendar;
 
 public class EventPlannerGUI {
 
@@ -13,54 +13,135 @@ public class EventPlannerGUI {
     public static final int PANEL_BORDER_WIDTH = FRAME_WIDTH / 80;
     public static final int PANEL_BORDER_HEIGHT = FRAME_HEIGHT / 45;
 
-    private ArrayList<PlannedEvent> events;
-//    private JLabel label;
-    private JFrame frame;
-    private JPanel panel;
+    private ArrayList<PlannedEvent> events = new ArrayList<PlannedEvent>();
 
-    private JLabel eventNameLabel;
-    private JTextField eventNameText;
-    private JLabel eventDescriptionLabel;
-    private JTextField eventDescriptionText;
-    private JLabel eventStartDateLabel;
-    private JTextField eventStartDateText;
-    private JLabel eventEndDateLabel;
-    private JTextField eventEndDateText;
+    private JFrame frameMain;
+    private JPanel panelMain;
+
+    private JLabel labelEventName,labelEventDescription;
+    private JTextField textFieldEventName, textFieldEventDescription;
+
+    private JLabel labelEventStartDate;
+    private JLabel labelEventEndDate;
+
+    private JTextField textFieldEventStartYear, textFieldEventStartMonth, textFieldEventStartDay,
+        textFieldEventStartHour, textFieldEventStartMinute;
+
+    private JTextField textFieldEventEndYear, textFieldEventEndMonth, textFieldEventEndDay,
+        textFieldEventEndHour, textFieldEventEndMinute;
 
     public EventPlannerGUI() {
 
-        frame = new JFrame();
+        frameMain = new JFrame();
+        panelMain = new JPanel();
+        setPanelSettings(panelMain, 1, 2, BorderFactory.createEmptyBorder(PANEL_BORDER_HEIGHT,
+                PANEL_BORDER_WIDTH, PANEL_BORDER_HEIGHT, PANEL_BORDER_WIDTH));
 
-        panel = new JPanel();
-        panel.setBorder(BorderFactory.createEmptyBorder(PANEL_BORDER_HEIGHT, PANEL_BORDER_WIDTH, PANEL_BORDER_HEIGHT,
-                PANEL_BORDER_WIDTH));
-        panel.setLayout(null);
+        JPanel panelLeft = new JPanel();
+        setPanelSettings(panelLeft, 0, 1);
+        JPanel panelRight = new JPanel();
+        setPanelSettings(panelRight, 2, 1);
+        JPanel panelEventData = new JPanel();
+        setPanelSettings(panelEventData, 5, 2);
+        JPanel panelEventMaker = new JPanel();
+        setPanelSettings(panelEventMaker, 5, 2);
 
+        labelEventName = new JLabel("Event Name:");
+        textFieldEventName = new JTextField();
+        labelEventDescription = new JLabel("Event Description:");
+        textFieldEventDescription = new JTextField();
+
+        labelEventStartDate = new JLabel("Start Date:");
+        JPanel panelEventStartDate = new JPanel();
+        setPanelSettings(panelEventStartDate, 1, 9);
+        textFieldEventStartYear = new JTextField();
+        textFieldEventStartMonth = new JTextField();
+        textFieldEventStartDay = new JTextField();
+        textFieldEventStartHour = new JTextField();
+        textFieldEventStartMinute = new JTextField();
+        {
+            JComponent[] tempArray = new JComponent[]{textFieldEventStartYear, new JLabel(":"),
+                    textFieldEventStartMonth, new JLabel(":"), textFieldEventStartDay,
+                    new JLabel(":"), textFieldEventStartHour, new JLabel(":"), textFieldEventStartMinute};
+            addAll(panelEventStartDate, tempArray);
+        }
+
+        labelEventEndDate = new JLabel("End Date:");
+        JPanel panelEventEndDate = new JPanel();
+        setPanelSettings(panelEventEndDate, 1, 9);
+        textFieldEventEndYear = new JTextField();
+        textFieldEventEndMonth = new JTextField();
+        textFieldEventEndDay = new JTextField();
+        textFieldEventEndHour = new JTextField();
+        textFieldEventEndMinute = new JTextField();
+        {
+            JComponent[] tempArray = new JComponent[]{textFieldEventEndYear, new JLabel(":"),
+                    textFieldEventEndMonth, new JLabel(":"), textFieldEventEndDay,
+                    new JLabel(":"), textFieldEventEndHour, new JLabel(":"), textFieldEventEndMinute};
+            addAll(panelEventEndDate, tempArray);
+        }
+
+        JLabel labelCreateNewEvent = new JLabel("Create!");
         JButton buttonCreateNewEvent = new JButton(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                String eventName = textFieldEventName.getText();
+                String eventDescription = textFieldEventDescription.getText();
+                Calendar startDate = PlannedEvent.makeDate(toIntFromTextField(textFieldEventStartYear),
+                        toIntFromTextField(textFieldEventStartMonth), toIntFromTextField(textFieldEventStartDay),
+                        toIntFromTextField(textFieldEventStartHour), toIntFromTextField(textFieldEventStartMinute), 0);
+                Calendar endDate = PlannedEvent.makeDate(toIntFromTextField(textFieldEventEndYear),
+                        toIntFromTextField(textFieldEventEndMonth), toIntFromTextField(textFieldEventEndDay),
+                        toIntFromTextField(textFieldEventEndHour), toIntFromTextField(textFieldEventEndMinute), 0);
+                PlannedEvent tempPlannedEvent = new PlannedEvent(eventName, eventDescription, startDate, endDate);
+                events.add(tempPlannedEvent);
+                panelLeft.add(new JLabel(tempPlannedEvent.toString()));
+                SwingUtilities.updateComponentTreeUI(frameMain);
             }
         });
 
+        {
+            JComponent[] tempArray = new JComponent[]{labelEventName, textFieldEventName, labelEventDescription,
+                    textFieldEventDescription, labelEventStartDate, panelEventStartDate, labelEventEndDate,
+                    panelEventEndDate, labelCreateNewEvent, buttonCreateNewEvent};
+            addAll(panelEventMaker, tempArray);
+        }
 
-        buttonCreateNewEvent.setBounds(FRAME_WIDTH / 6 * 5 + FRAME_WIDTH / 16, FRAME_HEIGHT / 6 * 5, FRAME_WIDTH / 16, FRAME_HEIGHT / 16);
+        panelRight.add(panelEventData);
+        panelRight.add(panelEventMaker);
 
-        panel.add(buttonCreateNewEvent);
+        panelMain.add(panelLeft);
+        panelMain.add(panelRight);
 
-        frame.add(panel, BorderLayout.CENTER);
+        frameMain.add(panelMain, BorderLayout.CENTER);
 
+        frameMain.setTitle("Dani Event Planner");
+        frameMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frameMain.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+//        frameMain.setResizable(false);
 
-        frame.setTitle("Dani Event Planner");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
-        frame.setResizable(false);
-
-        frame.setVisible(true);
+        frameMain.setVisible(true);
 
     }
 
-    public static void main(String[] args) {
-        new EventPlannerGUI();
+    private static void setPanelSettings(JPanel panel, int rows, int cols) {
+        panel.setLayout(new GridLayout(rows, cols));
+    }
+
+    private static void setPanelSettings(JPanel panel, int rows, int cols, Border border) {
+        panel.setBorder(border);
+        panel.setLayout(new GridLayout(rows, cols));
+    }
+
+
+
+    private static void addAll(JPanel panel, JComponent[] components) {
+        for (JComponent component : components) {
+            panel.add(component);
+        }
+    }
+
+    private static int toIntFromTextField(JTextField textField) {
+        return Integer.parseInt(textField.getText());
     }
 }
