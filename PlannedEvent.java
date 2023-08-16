@@ -50,6 +50,18 @@ public class PlannedEvent {
         this.eventEndDate = eventEndDate;
     }
 
+    public String getEventStartDateString() {
+        return String.format("%s/%s/%s/%s/%s", eventStartDate.get(Calendar.YEAR), eventStartDate.get(Calendar.MONTH),
+                eventStartDate.get(Calendar.DAY_OF_MONTH), eventStartDate.get(Calendar.HOUR),
+                eventStartDate.get(Calendar.MINUTE));
+    }
+
+    public String getEventEndDateString() {
+        return String.format("%s/%s/%s/%s/%s", eventEndDate.get(Calendar.YEAR), eventEndDate.get(Calendar.MONTH),
+                eventEndDate.get(Calendar.DAY_OF_MONTH), eventEndDate.get(Calendar.HOUR),
+                eventEndDate.get(Calendar.MINUTE));
+    }
+
 
     public static Calendar makeDate(int year, int month, int day, int hour, int minute, int second) {
         Calendar date = Calendar.getInstance();
