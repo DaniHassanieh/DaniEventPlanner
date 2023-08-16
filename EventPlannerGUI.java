@@ -1,8 +1,8 @@
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
@@ -18,7 +18,7 @@ public class EventPlannerGUI {
     private static final Border mainBorder = BorderFactory.createEmptyBorder(PANEL_BORDER_HEIGHT, PANEL_BORDER_WIDTH,
             PANEL_BORDER_HEIGHT, PANEL_BORDER_WIDTH);
 
-    // PlannedEvent ArrayList
+    // PlannedEvent HashMapList
     private HashMap<PlannedEvent, JButton> events = new HashMap<>();
 
     private JFrame frameMain;
@@ -39,13 +39,6 @@ public class EventPlannerGUI {
     private JLabel labelCreatePlannedEvent;
     private JButton buttonCreatePlannedEvent;
 
-    // panelEventData
-    private JPanel panelEventData;
-    private JLabel labelEventNameData,labelEventDescriptionData;
-    private JLabel labelEventStartDateData, labelEventEndDateData;
-    private JLabel labelDeletePlannedEvent;
-    JButton buttonDeletePlannedEvent;
-
     public EventPlannerGUI() {
 
         frameMain = new JFrame();
@@ -59,9 +52,6 @@ public class EventPlannerGUI {
 
         // panelEventMaker setup
         makePanelEventMaker();
-
-        // panelEventData setup
-
 
         // panelRight setup
         panelRight.add(panelEventMaker);
@@ -124,26 +114,7 @@ public class EventPlannerGUI {
         buttonCreatePlannedEvent = new JButton(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // gets data from all JTextFields
-                String eventName = textFieldEventName.getText();
-                String eventDescription = textFieldEventDescription.getText();
-                Calendar startDate = PlannedEvent.makeDate(toIntFromTextField(textFieldEventStartYear),
-                        toIntFromTextField(textFieldEventStartMonth), toIntFromTextField(textFieldEventStartDay),
-                        toIntFromTextField(textFieldEventStartHour), toIntFromTextField(textFieldEventStartMinute), 0);
-                Calendar endDate = PlannedEvent.makeDate(toIntFromTextField(textFieldEventEndYear),
-                        toIntFromTextField(textFieldEventEndMonth), toIntFromTextField(textFieldEventEndDay),
-                        toIntFromTextField(textFieldEventEndHour), toIntFromTextField(textFieldEventEndMinute), 0);
-                PlannedEvent tempPlannedEvent = new PlannedEvent(eventName, eventDescription, startDate, endDate);
-                JButton buttonPanelEventData = new JButton(new AbstractAction() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        makePanelEventData(tempPlannedEvent);
-                    }
-                });
-                events.put(tempPlannedEvent, buttonPanelEventData);
-
-                panelLeft.add(buttonPanelEventData);
-                SwingUtilities.updateComponentTreeUI(frameMain);
+                makePanelEventData();
             }
         });
 
@@ -155,35 +126,59 @@ public class EventPlannerGUI {
         }
     }
 
-    private void makePanelEventData(PlannedEvent event) {
-//        JPanel panelNewEventData = new JPanel();
-//        events.put(event, panelNewEventData);
-//        setPanelSettings(panelNewEventData, 5, 2, mainBorder);
-        panelEventData = new JPanel();
-//        events.put(event, panelEventData);
-        setPanelSettings(panelEventData, 5, 2, mainBorder);
+    private void makePanelEventData() {
+        // gets data from all JTextFields
+        String eventName = textFieldEventName.getText();
+        String eventDescription = textFieldEventDescription.getText();
+        Calendar startDate = PlannedEvent.makeDate(toIntFromTextField(textFieldEventStartYear),
+                toIntFromTextField(textFieldEventStartMonth), toIntFromTextField(textFieldEventStartDay),
+                toIntFromTextField(textFieldEventStartHour), toIntFromTextField(textFieldEventStartMinute), 0);
+        Calendar endDate = PlannedEvent.makeDate(toIntFromTextField(textFieldEventEndYear),
+                toIntFromTextField(textFieldEventEndMonth), toIntFromTextField(textFieldEventEndDay),
+                toIntFromTextField(textFieldEventEndHour), toIntFromTextField(textFieldEventEndMinute), 0);
+        PlannedEvent tempPlannedEvent = new PlannedEvent(eventName, eventDescription, startDate, endDate);
 
-        labelEventNameData = new JLabel(event.getEventName());
-        labelEventDescriptionData = new JLabel(event.getEventDescription());
-        labelEventStartDateData = new JLabel(event.getEventStartDateString());
-        labelEventEndDateData = new JLabel(event.getEventEndDateString());
-        labelDeletePlannedEvent = new JLabel("Delete!");
-        buttonDeletePlannedEvent = new JButton(new AbstractAction() {
+        JButton buttonPanelEventDataShow = new JButton(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panelLeft.remove(events.get(event));
+                showPanelEventData(tempPlannedEvent);
+            }
+        });
+        events.put(tempPlannedEvent, buttonPanelEventDataShow);
+
+        panelLeft.add(buttonPanelEventDataShow);
+        SwingUtilities.updateComponentTreeUI(frameMain);
+    }
+
+    private void showPanelEventData(PlannedEvent event) {
+        JPanel panelEventData = new JPanel();
+        setPanelSettings(panelEventData, 5, 2, mainBorder);
+
+        // panelEventData
+        //    private JPanel panelEventData;
+        JLabel labelEventNameData = new JLabel(event.getEventName());
+        JLabel labelEventDescriptionData = new JLabel(event.getEventDescription());
+        JLabel labelEventStartDateData = new JLabel(event.getEventStartDateString());
+        JLabel labelEventEndDateData = new JLabel(event.getEventEndDateString());
+        JLabel labelDeletePlannedEvent = new JLabel("Delete!");
+        //                panelRight.remove(panelNewEventData);
+        //                events.remove(event);
+        JButton buttonDeletePlannedEvent = new JButton(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panelLeft.remove(events.remove(event));
                 panelRight.remove(panelEventData);
 //                panelRight.remove(panelNewEventData);
 //                events.remove(event);
-                SwingUtilities.updateComponentTreeUI(frameMain);
+            SwingUtilities.updateComponentTreeUI(frameMain);
             }
         });
 
         {
             JComponent[] tempArray = new JComponent[]{new JLabel("Event Name:"), labelEventNameData,
-                    new JLabel("Event Description:"), labelEventDescriptionData,
-                    new JLabel("Start Date:"), labelEventStartDateData, new JLabel("End Date:"),
-                    labelEventEndDateData, labelDeletePlannedEvent, buttonDeletePlannedEvent};
+                new JLabel("Event Description:"), labelEventDescriptionData,
+                new JLabel("Start Date:"), labelEventStartDateData, new JLabel("End Date:"),
+                labelEventEndDateData, labelDeletePlannedEvent, buttonDeletePlannedEvent};
             addAll(panelEventData, tempArray);
         }
 
